@@ -295,3 +295,26 @@ body {
         width: 100%;
     }
 }
+
+.complete-button {
+    
+    width: 30px;
+    height: 30px;
+
+    border-radius: 50%;
+
+    border: 2px solid #667eea;
+
+    background: white;
+
+    cursor: pointer;
+
+    font-weight: bold;
+
+    transition: 0.3s;
+}
+
+.complete-button:hover {
+    background: #667eea;
+    color: white;
+}

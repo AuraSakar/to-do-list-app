@@ -16,7 +16,11 @@ let saveTasks = () => {
 // we have defined the tasks as an empy array at the begining
 
 let addTask = (task) => {
-    tasks.push(task);
+    // tasks.push(task);  // old
+    tasks.push({
+        text : task,
+        completed : false
+    });
     saveTasks();
     displayTasks();
 };
@@ -45,12 +49,19 @@ let displayTasks = () => {
         let taskDiv = document.createElement("div");
         taskDiv.classList.add("task");
         
-        let symbolDiv = document.createElement("div");
-        symbolDiv.classList.add("symbol");
+        // let symbolDiv = document.createElement("div");
+        // symbolDiv.classList.add("symbol");
 
         let p = document.createElement("p");
         p.classList.add("task-name");
-        p.innerText = `${idx+1}. ${task}`;
+        // p.innerText = `${idx+1}. ${task}`;  // old
+
+        if (task.completed) {
+            p.style.textDecoration = "line-through";
+            p.style.opacity = "0.6";
+        }
+
+        p.innerText = `${idx + 1}. ${task.text}`;
 
         let removeButton = document.createElement("button");
         removeButton.classList.add("remove-button");
@@ -60,7 +71,26 @@ let displayTasks = () => {
             deleteTask(idx);
         });
 
-        taskDiv.appendChild(symbolDiv);
+        let completeButton = document.createElement("button");
+        completeButton.classList.add("complete-button");
+        // completeButton.innerText = task.completed ? "✔" : "○";  // old
+
+        if (task.completed) {
+            completeButton.style.background = "#4CAF50";
+            completeButton.style.color = "white";
+            completeButton.innerText = "✔";
+        } else {
+            completeButton.innerText = "";
+        }
+
+        completeButton.addEventListener("click", () => {
+            tasks[idx].completed = !tasks[idx].completed;
+            saveTasks();
+            displayTasks();
+        });
+
+        // taskDiv.appendChild(symbolDiv);
+        taskDiv.appendChild(completeButton);
         taskDiv.appendChild(p);
         taskDiv.appendChild(removeButton);
 
