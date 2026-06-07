@@ -71,28 +71,47 @@ let displayTasks = () => {
             deleteTask(idx);
         });
 
-        let completeButton = document.createElement("button");
-        completeButton.classList.add("complete-button");
+        // let completeButton = document.createElement("button");
+        // completeButton.classList.add("complete-button");
         // completeButton.innerText = task.completed ? "✔" : "○";  // old
 
-        if (task.completed) {
-            completeButton.style.background = "#4CAF50";
-            completeButton.style.color = "white";
-            completeButton.innerText = "✔";
-        } else {
-            completeButton.innerText = "";
-        }
+        // if (task.completed) {
+        //     completeButton.style.background = "#4CAF50";
+        //     completeButton.style.color = "white";
+        //     completeButton.innerText = "✔";
+        // } else {
+        //     completeButton.innerText = "";
+        // }
 
-        completeButton.addEventListener("click", () => {
-            tasks[idx].completed = !tasks[idx].completed;
+        // completeButton.addEventListener("click", () => {
+        //     tasks[idx].completed = !tasks[idx].completed;
+        //     saveTasks();
+        //     displayTasks();
+        // });
+
+
+        let checkbox = document.createElement("input");
+        checkbox.type = "checkbox";
+        checkbox.checked = task.completed;
+        checkbox.classList.add("task-checkbox");
+        checkbox.addEventListener("change", () => {
+            tasks[idx].completed = checkbox.checked;
             saveTasks();
             displayTasks();
         });
 
         // taskDiv.appendChild(symbolDiv);
-        taskDiv.appendChild(completeButton);
+        // taskDiv.appendChild(completeButton);
+        taskDiv.appendChild(checkbox);
         taskDiv.appendChild(p);
         taskDiv.appendChild(removeButton);
+
+        if(task.completed) {
+            p.classList.add("completed");
+            // p.style.textDecoration = "line-through";
+            // p.style.color = "#888";
+            // p.style.opacity = "0.7";  
+        }
 
         tasksContainer.appendChild(taskDiv);
 
@@ -102,14 +121,31 @@ let displayTasks = () => {
 addTaskButton.addEventListener("click",() => {
     console.log(addTaskInput.value);
     let task = addTaskInput.value.trim();
-    if(!tasks.includes(task)){
-        if(task !== ""){
-            addTask(task);
-        }
-    } else {
-        console.log("task already exists.");
-        alert("Task already exists.");
+
+    if (task === "") {
+        return;
     }
+
+    const taskExists = tasks.some(
+        (tsk) => 
+            tsk.text.toLowerCase() ===  // for case insensitivity
+            task.toLowerCase()
+    );
+
+    if(taskExists) {
+        alert("Task already exists.");
+    } else {
+        addTask(task);
+    }
+
+    // if(!tasks.includes(task)){
+    //     if(task !== ""){
+    //         addTask(task);
+    //     }
+    // } else {
+    //     console.log("task already exists.");
+    //     alert("Task already exists.");
+    // }
 
     addTaskInput.value = "";
     
